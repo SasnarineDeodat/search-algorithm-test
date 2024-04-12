@@ -31,7 +31,13 @@ var userSchema = mongoose.Schema({
 });
 var User = (module.exports = mongoose.model("user", userSchema));
 module.exports.getUserById = function (id, callback) {
-  User.findById(id, callback);
+  User.findById(id)
+    .then((user) => {
+      callback(null, user);
+    })
+    .catch((err) => {
+      callback(err);
+    });
 };
 module.exports.getUserByUsername = function (username, callback) {
   var query = { uname: username };
