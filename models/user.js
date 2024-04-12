@@ -35,7 +35,13 @@ module.exports.getUserById = function (id, callback) {
 };
 module.exports.getUserByUsername = function (username, callback) {
   var query = { uname: username };
-  User.findOne(query, callback);
+  User.findOne(query)
+    .then((user) => {
+      callback(null, user);
+    })
+    .catch((err) => {
+      callback(err);
+    });
 };
 module.exports.comparePassword = function (candidatepassword, hash, callback) {
   bcrypt.compare(candidatepassword, hash, function (err, isMatch) {
